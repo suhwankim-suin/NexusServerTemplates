@@ -1,0 +1,53 @@
+sudo yum install wget -y
+sudo yum install java-1.8.0-openjdk.x86_64 -y
+## https://www.coachdevops.com/2019/10/how-to-setup-sonatype-nexus-3-on-redhat.html
+cd /opt
+sudo wget -O nexus3.tar.gz https://download.sonatype.com/nexus/3/latest-unix.tar.gz
+sudo tar -xvf nexus3.tar.gz
+sudo mv nexus-3* nexus
+sudo adduser nexus
+sudo vi /opt/nexus/bin/nexus.rc
+sudo vi /opt/nexus/bin/nexus.vmoptions
+sudo mkdir /etc/systemd
+sudo mkdir /etc/systemd/system
+sudo vi /etc/systemd/system/nexus.service
+
+sudo ln -s /opt/nexus/bin/nexus /etc/init.d/nexus
+
+sudo chkconfig --add nexus
+sudo chkconfig --levels 345 nexus on
+
+sudo service nexus start
+
+sudo service nexus status
+
+tail -f /opt/sonatype-work/nexus3/log/nexus.log
+
+http://public_dns_name:8081
+
+sudo cat /opt/sonatype-work/nexus3/admin.password
+
+
+
+1.현재 자바 버전 및 컴파일 버전을 확인합니다.
+
+#java -version
+#javac -version
+ 
+
+2.java -version, javac -version 을 사용할때 사용하는 링크를 확인합니다.
+
+ 
+
+#ls -l /usr/bin/java
+#ls -l /usr/bin/javac
+ 
+
+3.각 링크를 변경할 자바 설치 경로로 링크를 변경해준다.
+
+ 
+
+#unlink /usr/bin/java
+#ln -s 자바설치경로 /usr/bin/java
+#unlink /usr/bin/javac
+#ln -s 자바설치경로 /usr/bin/javac
